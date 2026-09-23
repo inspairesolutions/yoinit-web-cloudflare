@@ -1,0 +1,436 @@
+.deletion-page {
+  --deletion-danger: #FF6B5A;
+  --deletion-danger-bg: rgba(255, 107, 90, .12);
+}
+
+.deletion-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(56px, 8vw, 104px) 20px clamp(64px, 9vw, 120px);
+}
+
+.deletion-hero::before {
+  content: '';
+  position: absolute;
+  top: -260px;
+  left: 48%;
+  width: 760px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 107, 90, .1), rgba(255, 107, 90, 0) 68%);
+  pointer-events: none;
+}
+
+.deletion-hero__inner {
+  position: relative;
+  width: min(1100px, 100%);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 460px);
+  gap: clamp(52px, 9vw, 112px);
+  align-items: start;
+}
+
+.deletion-copy {
+  padding-top: 12px;
+}
+
+.deletion-copy h1 {
+  max-width: 620px;
+  margin: 0;
+  font: 800 clamp(46px, 7.3vw, 82px)/.98 Archivo, sans-serif;
+  letter-spacing: -.052em;
+}
+
+.deletion-lead {
+  max-width: 590px;
+  margin: 26px 0 0;
+  color: var(--yo-secondary);
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.6;
+}
+
+.deletion-warning {
+  max-width: 600px;
+  margin-top: 34px;
+  padding: 20px 22px;
+  display: flex;
+  gap: 16px;
+  border-left: 3px solid var(--deletion-danger);
+  background: var(--deletion-danger-bg);
+}
+
+.deletion-warning svg {
+  width: 23px;
+  height: 23px;
+  flex: none;
+  fill: none;
+  stroke: var(--deletion-danger);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.deletion-warning strong {
+  color: var(--yo-text);
+  font-size: 15px;
+}
+
+.deletion-warning p {
+  margin: 6px 0 0;
+  color: var(--yo-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.deletion-includes {
+  max-width: 610px;
+  margin-top: 52px;
+}
+
+.deletion-includes h2 {
+  margin: 0 0 20px;
+  font: 800 24px/1.1 Archivo, sans-serif;
+  letter-spacing: -.03em;
+}
+
+.deletion-includes ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 32px;
+}
+
+.deletion-includes li {
+  position: relative;
+  padding: 15px 0 15px 22px;
+  border-top: 1px solid rgba(255, 255, 255, .09);
+  color: var(--yo-secondary);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.deletion-includes li::before {
+  content: '';
+  position: absolute;
+  top: 22px;
+  left: 1px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--yo-muted);
+}
+
+.deletion-form-column {
+  min-width: 0;
+}
+
+.deletion-form,
+.deletion-success {
+  padding: clamp(26px, 4vw, 38px);
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 24px;
+  background: var(--yo-surface);
+}
+
+.deletion-form__heading > p {
+  margin: 0 0 9px;
+  color: var(--deletion-danger);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.deletion-form__heading h2,
+.deletion-success h2 {
+  margin: 0;
+  font: 800 clamp(26px, 4vw, 34px)/1.08 Archivo, sans-serif;
+  letter-spacing: -.035em;
+}
+
+.deletion-field {
+  margin-top: 26px;
+  display: grid;
+  gap: 9px;
+}
+
+.deletion-field > span {
+  color: var(--yo-secondary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.deletion-field small {
+  margin-left: 5px;
+  color: var(--yo-muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.deletion-field input,
+.deletion-field textarea {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 14px;
+  background: var(--yo-raised);
+  color: var(--yo-text);
+  font: 500 15px/1.5 'Plus Jakarta Sans', sans-serif;
+}
+
+.deletion-field input {
+  min-height: 52px;
+  padding: 0 15px;
+}
+
+.deletion-field textarea {
+  min-height: 118px;
+  padding: 14px 15px;
+  resize: vertical;
+}
+
+.deletion-field input::placeholder,
+.deletion-field textarea::placeholder {
+  color: var(--yo-muted);
+}
+
+.deletion-field input:focus,
+.deletion-field textarea:focus {
+  border-color: var(--yo-acid);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(202, 254, 64, .12);
+}
+
+.deletion-confirm {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 12px;
+  align-items: start;
+  cursor: pointer;
+}
+
+.deletion-confirm input {
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  accent-color: var(--deletion-danger);
+}
+
+.deletion-confirm span {
+  color: var(--yo-secondary);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.deletion-submit {
+  width: 100%;
+  min-height: 52px;
+  margin-top: 26px;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--deletion-danger);
+  color: var(--yo-base);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.deletion-submit:hover {
+  filter: brightness(1.06);
+}
+
+.deletion-submit:disabled {
+  background: var(--yo-raised);
+  color: var(--yo-muted);
+  opacity: 1;
+}
+
+.deletion-form__help,
+.deletion-form__status {
+  margin: 14px 0 0;
+  color: var(--yo-muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.deletion-form__status:not(:empty) {
+  color: var(--yo-secondary);
+}
+
+.deletion-success {
+  min-height: 430px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.deletion-success:focus {
+  outline: none;
+}
+
+.deletion-success__mark {
+  width: 46px;
+  height: 46px;
+  margin-bottom: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--yo-acid);
+  color: var(--yo-base);
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.deletion-success p {
+  margin: 18px 0 26px;
+  color: var(--yo-secondary);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.deletion-process {
+  padding: clamp(64px, 8vw, 100px) 20px;
+  border-block: 1px solid rgba(255, 255, 255, .08);
+  background: #0E141A;
+}
+
+.deletion-process__inner {
+  width: min(1100px, 100%);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(240px, .7fr) minmax(0, 1.3fr);
+  gap: clamp(48px, 8vw, 100px);
+}
+
+.deletion-process__intro h2,
+.deletion-retention h2 {
+  margin: 0;
+  font: 800 clamp(30px, 4.4vw, 46px)/1.05 Archivo, sans-serif;
+  letter-spacing: -.04em;
+}
+
+.deletion-process__intro p,
+.deletion-retention p {
+  margin: 20px 0 0;
+  color: var(--yo-secondary);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.deletion-process ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.deletion-process li {
+  min-height: 112px;
+  padding: 24px 0;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 20px;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+}
+
+.deletion-process li > span {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: var(--yo-raised);
+  color: var(--yo-text);
+  font: 800 13px Archivo, sans-serif;
+}
+
+.deletion-process li:first-child > span {
+  background: var(--yo-acid);
+  color: var(--yo-base);
+}
+
+.deletion-process h3 {
+  margin: 0;
+  font: 800 19px/1.2 Archivo, sans-serif;
+  letter-spacing: -.02em;
+}
+
+.deletion-process li p {
+  margin: 7px 0 0;
+  color: var(--yo-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.deletion-retention {
+  width: min(1100px, calc(100% - 40px));
+  margin-inline: auto;
+  padding-block: clamp(64px, 9vw, 112px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 48px;
+}
+
+.deletion-retention > div {
+  max-width: 720px;
+}
+
+.deletion-retention a {
+  min-height: 44px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  color: var(--yo-text);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--yo-acid);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+
+@media (max-width: 860px) {
+  .deletion-hero__inner,
+  .deletion-process__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .deletion-form-column {
+    width: min(100%, 560px);
+  }
+
+  .deletion-retention {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 560px) {
+  .deletion-hero {
+    padding-inline: 16px;
+  }
+
+  .deletion-copy h1 {
+    font-size: clamp(44px, 15vw, 62px);
+  }
+
+  .deletion-includes ul {
+    grid-template-columns: 1fr;
+  }
+
+  .deletion-form,
+  .deletion-success {
+    padding: 24px 20px;
+    border-radius: 20px;
+  }
+
+  .deletion-process {
+    padding-inline: 16px;
+  }
+
+  .deletion-retention {
+    width: min(100% - 32px, 1100px);
+  }
+}

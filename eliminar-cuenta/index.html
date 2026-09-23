@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es-VE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Eliminar cuenta y datos — YoinIt</title>
+  <meta name="description" content="Solicita la eliminación de tu cuenta de YoinIt y de los datos personales asociados.">
+  <link rel="canonical" href="https://yoinit.app/eliminar-cuenta/">
+  <link rel="icon" href="../assets/brand/yoinit-logo-kit-v1/favicon/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="../assets/brand/yoinit-logo-kit-v1/favicon/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="../assets/brand/yoinit-logo-kit-v1/favicon/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/privacy.css">
+  <link rel="stylesheet" href="../assets/css/delete-account.css">
+</head>
+<body class="privacy-page deletion-page">
+  <a href="#contenido" class="skip-link">Saltar al contenido</a>
+
+  <header class="privacy-header">
+    <div class="privacy-header__inner">
+      <a href="../" class="privacy-brand" aria-label="YoinIt, volver al inicio">
+        <img src="../assets/brand/yoinit-logo-kit-v1/svg/yoinit-horizontal-color-fondo-oscuro.svg" alt="YoinIt">
+      </a>
+      <nav aria-label="Navegación" class="privacy-header__nav">
+        <a href="../">Inicio</a>
+        <a href="../privacidad/">Privacidad</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="deletion-hero" aria-labelledby="deletion-title">
+      <div class="deletion-hero__inner">
+        <div class="deletion-copy">
+          <p class="privacy-breadcrumb"><a href="../">YoinIt</a><span aria-hidden="true">/</span> Cuenta</p>
+          <h1 id="deletion-title">Eliminar tu cuenta</h1>
+          <p class="deletion-lead">Puedes solicitar aquí el borrado permanente de tu cuenta de YoinIt y de los datos personales asociados. No necesitas reinstalar la app.</p>
+
+          <div class="deletion-warning" role="note">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4m0 4h.01M10.3 3.8 2.6 17.1A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.9L13.7 3.8a2 2 0 0 0-3.4 0Z"></path></svg>
+            <div>
+              <strong>Esta acción es permanente.</strong>
+              <p>Cuando termine el proceso, no podrás recuperar tu perfil, historial ni acceso con esa cuenta.</p>
+            </div>
+          </div>
+
+          <section class="deletion-includes" aria-labelledby="includes-title">
+            <h2 id="includes-title">Qué se elimina</h2>
+            <ul>
+              <li>Cuenta de acceso y perfil de jugador.</li>
+              <li>Nombre, teléfono, avatar y preferencias.</li>
+              <li>Niveles, cuestionarios y relaciones sociales.</li>
+              <li>Tokens de notificaciones y datos del dispositivo vinculados.</li>
+              <li>Datos de actividad que puedan borrarse o desvincularse sin afectar derechos de otras personas.</li>
+            </ul>
+          </section>
+        </div>
+
+        <div class="deletion-form-column">
+          <form class="deletion-form" id="account-deletion-form" action="https://formspree.io/f/mjykwgvg" method="POST" accept-charset="UTF-8" aria-describedby="deletion-form-help deletion-form-status">
+            <input type="hidden" name="_subject" value="Solicitud de eliminación de cuenta de YoinIt">
+            <input type="hidden" name="tipo_solicitud" value="eliminacion_cuenta_y_datos">
+
+            <div class="deletion-form__heading">
+              <p>Solicitud de eliminación</p>
+              <h2>Identifica tu cuenta</h2>
+            </div>
+
+            <label class="deletion-field">
+              <span>Email de tu cuenta YoinIt</span>
+              <input type="email" name="email" autocomplete="email" placeholder="nombre@correo.com" required>
+            </label>
+
+            <label class="deletion-field">
+              <span>Información adicional <small>Opcional</small></span>
+              <textarea name="detalle" rows="4" placeholder="Cuéntanos si perdiste acceso al email o necesitas aclarar algo"></textarea>
+            </label>
+
+            <label class="deletion-confirm">
+              <input type="checkbox" name="confirmacion" value="Confirmo la eliminación permanente" required>
+              <span>Entiendo que la eliminación es permanente y solicito borrar mi cuenta de YoinIt y los datos asociados.</span>
+            </label>
+
+            <button type="submit" class="deletion-submit">Solicitar eliminación</button>
+            <p id="deletion-form-help" class="deletion-form__help">Nunca te pediremos tu contraseña, códigos de acceso ni datos bancarios.</p>
+            <p id="deletion-form-status" class="deletion-form__status" role="status" aria-live="polite"></p>
+          </form>
+
+          <div class="deletion-success" id="deletion-success" hidden tabindex="-1">
+            <div class="deletion-success__mark" aria-hidden="true">✓</div>
+            <h2>Solicitud recibida</h2>
+            <p>Te escribiremos al email indicado para verificar que la cuenta es tuya y comunicarte el plazo estimado de eliminación.</p>
+            <a href="../" class="secondary-button">Volver al inicio</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="deletion-process" aria-labelledby="process-title">
+      <div class="deletion-process__inner">
+        <div class="deletion-process__intro">
+          <h2 id="process-title">Qué pasa después</h2>
+          <p>La solicitud puede completarse fuera de la app. Solo necesitamos comprobar que nadie está intentando borrar una cuenta ajena.</p>
+        </div>
+        <ol>
+          <li><span>1</span><div><h3>Envías la solicitud</h3><p>Usa el mismo email con el que entras a YoinIt.</p></div></li>
+          <li><span>2</span><div><h3>Verificamos tu identidad</h3><p>Te contactamos por email. Si no tienes acceso, revisamos una alternativa segura.</p></div></li>
+          <li><span>3</span><div><h3>Eliminamos y confirmamos</h3><p>Borramos o desvinculamos los datos incluidos y te avisamos al terminar.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="deletion-retention" aria-labelledby="retention-title">
+      <div>
+        <h2 id="retention-title">Datos que pueden conservarse</h2>
+        <p>Podemos conservar registros mínimos de pagos, reservas, seguridad o fraude cuando exista una obligación legal o una razón legítima. Quedan restringidos, dejan de formar parte de un perfil activo y se eliminan cuando termina el plazo aplicable.</p>
+      </div>
+      <a href="../privacidad/#conservacion">Ver política de conservación</a>
+    </section>
+  </main>
+
+  <footer class="privacy-footer">
+    <div class="privacy-footer__inner">
+      <div>
+        <img src="../assets/brand/yoinit-logo-kit-v1/svg/yoinit-horizontal-color-fondo-oscuro.svg" alt="YoinIt">
+        <p>Crea el partido. Invita a tu gente. Juega.</p>
+      </div>
+      <nav aria-label="Enlaces del pie de página">
+        <a href="../">Inicio</a>
+        <a href="../privacidad/">Privacidad</a>
+        <a href="./" aria-current="page">Eliminar cuenta</a>
+      </nav>
+    </div>
+    <div class="privacy-footer__bottom">
+      <p>© 2026 YoinIt · Caracas, Venezuela</p>
+      <p>Control sobre tus datos, dentro y fuera de la app.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var form = document.getElementById('account-deletion-form');
+      var submit = form.querySelector('button[type="submit"]');
+      var status = document.getElementById('deletion-form-status');
+      var success = document.getElementById('deletion-success');
+
+      form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+
+        submit.disabled = true;
+        submit.textContent = 'Enviando solicitud…';
+        status.textContent = 'Estamos enviando tu solicitud.';
+
+        try {
+          var response = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' }
+          });
+          if (!response.ok) throw new Error('No se pudo registrar la solicitud');
+          form.hidden = true;
+          success.hidden = false;
+          success.focus();
+        } catch (error) {
+          status.textContent = 'No pudimos enviar la solicitud. Inténtalo de nuevo en unos minutos.';
+          submit.disabled = false;
+          submit.textContent = 'Solicitar eliminación';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
