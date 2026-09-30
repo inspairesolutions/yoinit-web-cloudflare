@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es-VE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>Correo confirmado — YoinIt</title>
+  <meta name="description" content="Confirmación de correo de tu cuenta de YoinIt.">
+  <link rel="canonical" href="https://yoinit.app/auth/confirm/">
+  <link rel="icon" href="../../assets/brand/yoinit-logo-kit-v1/favicon/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="../../assets/brand/yoinit-logo-kit-v1/favicon/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="../../assets/brand/yoinit-logo-kit-v1/favicon/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <link rel="stylesheet" href="../../assets/css/auth-confirm.css">
+</head>
+<body class="confirm-page">
+  <main class="confirm" id="contenido">
+    <a href="../../" class="confirm__brand" aria-label="YoinIt, ir al inicio">
+      <img src="../../assets/brand/yoinit-logo-kit-v1/svg/yoinit-horizontal-color-fondo-oscuro.svg" alt="YoinIt">
+    </a>
+
+    <section class="confirm__card" id="state-ok" aria-labelledby="ok-title">
+      <svg class="confirm__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7"></path></svg>
+      <h1 id="ok-title">Correo confirmado</h1>
+      <p class="confirm__text" data-when="mobile" hidden>Tu cuenta ya está lista. Abre la app para entrar.</p>
+      <p class="confirm__text" data-when="desktop">Tu cuenta ya está lista. Abre YoinIt en tu móvil e inicia sesión con tu correo y tu contraseña.</p>
+      <a class="confirm__button" id="open-app" data-when="mobile" href="com.yoinit.app://auth/confirmed" hidden>Abrir YoinIt</a>
+    </section>
+
+    <section class="confirm__card confirm__card--error" id="state-error" aria-labelledby="error-title" hidden>
+      <svg class="confirm__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v5m0 3.5h.01M10.3 3.8 2.6 17.1A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.9L13.7 3.8a2 2 0 0 0-3.4 0Z"></path></svg>
+      <h1 id="error-title">Este enlace ya no sirve</h1>
+      <p class="confirm__text">Caducó o ya se usó. Abre la app, intenta iniciar sesión y te enviamos un correo nuevo.</p>
+      <a class="confirm__button confirm__button--quiet" id="open-app-error" data-when="mobile" href="com.yoinit.app://auth/confirmed" hidden>Abrir YoinIt</a>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var ua = navigator.userAgent || '';
+      var isIPadOS = /Macintosh/.test(ua) && navigator.maxTouchPoints > 1;
+      var isMobile = /Android|iPhone|iPad|iPod/i.test(ua) || isIPadOS;
+
+      // Supabase devuelve los fallos en el fragmento (#error=...) o en la query (?error=...).
+      var raw = (location.hash + '&' + location.search).replace(/[#?]/g, '&');
+      var failed = /(^|&)error(_code|_description)?=/.test(raw);
+
+      document.getElementById('state-ok').hidden = failed;
+      document.getElementById('state-error').hidden = !failed;
+
+      if (isMobile) {
+        document.querySelectorAll('[data-when="desktop"]').forEach(function (el) { el.hidden = true; });
+        document.querySelectorAll('[data-when="mobile"]').forEach(function (el) { el.hidden = false; });
+      }
+
+      // Se limpia la URL: no deja fragmentos ni parámetros en el historial.
+      if (location.hash || location.search) {
+        history.replaceState(null, '', location.pathname);
+      }
+
+      // Solo en éxito y en móvil se intenta abrir la app; el botón queda como respaldo
+      // porque iOS y Android suelen bloquear el salto automático a esquemas propios.
+      if (isMobile && !failed) {
+        setTimeout(function () { location.href = 'com.yoinit.app://auth/confirmed'; }, 400);
+      }
+    })();
+  </script>
+</body>
+</html>

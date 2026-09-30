@@ -1,0 +1,94 @@
+.confirm-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--yo-base);
+  color: var(--yo-text);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.confirm {
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 32px 20px;
+}
+
+.confirm__brand img {
+  display: block;
+  height: 32px;
+  width: auto;
+}
+
+.confirm__card {
+  width: min(420px, 100%);
+  padding: 32px 24px;
+  background: var(--yo-surface);
+  border: 1px solid var(--yo-line);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.confirm__card[hidden],
+.confirm [hidden] { display: none; }
+
+.confirm__icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 50%;
+  background: var(--yo-acid);
+  fill: none;
+  stroke: var(--yo-base);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.confirm__card--error .confirm__icon {
+  background: rgba(242, 193, 78, .14);
+  stroke: var(--yo-warn);
+}
+
+.confirm__card h1 {
+  margin: 0 0 12px;
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+.confirm__text {
+  margin: 0;
+  color: var(--yo-secondary);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.confirm__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  margin-top: 28px;
+  padding: 0 24px;
+  border-radius: 14px;
+  background: var(--yo-acid);
+  color: var(--yo-base);
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.confirm__button--quiet {
+  background: var(--yo-raised);
+  color: var(--yo-text);
+}
+
+.confirm__button:focus-visible {
+  outline: 2px solid var(--yo-text);
+  outline-offset: 3px;
+}
