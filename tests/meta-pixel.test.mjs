@@ -22,7 +22,10 @@ test('enabled:false o sin id apaga el pixel', () => {
 });
 
 test('consentimiento: aceptado, rechazado, sin eleccion y sin storage', () => {
-  assert.equal(readConsent(memStore({ [CONSENT_KEY]: 'accepted' })), 'accepted');
+  assert.equal(readConsent(memStore({ [CONSENT_KEY]: 'accepted_v2' })), 'accepted');
+  // 'accepted' del texto antiguo (sin publicidad) no vale: el banner vuelve a salir.
+  assert.equal(readConsent(memStore({ [CONSENT_KEY]: 'accepted' })), null);
+  assert.equal(shouldShowBanner(readConsent(memStore({ [CONSENT_KEY]: 'accepted' })), '1'), true);
   assert.equal(readConsent(memStore({ [CONSENT_KEY]: 'rejected' })), 'rejected');
   assert.equal(readConsent(memStore()), null);
   assert.equal(readConsent(memStore({ [CONSENT_KEY]: 'yes' })), null);
@@ -30,7 +33,12 @@ test('consentimiento: aceptado, rechazado, sin eleccion y sin storage', () => {
   assert.equal(readConsent({ getItem() { throw new Error('blocked'); } }), null);
   const st = memStore();
   assert.equal(writeConsent(st, 'accepted'), true);
+  assert.equal(st.getItem(CONSENT_KEY), 'accepted_v2');
   assert.equal(readConsent(st), 'accepted');
+  assert.equal(writeConsent(st, 'rejected'), true);
+  assert.equal(st.getItem(CONSENT_KEY), 'rejected');
+  assert.equal(readConsent(st), 'rejected');
+  assert.equal(shouldLoadPixel(readConsent(st), '1'), false);
   assert.equal(writeConsent(st, 'maybe'), false);
   assert.equal(writeConsent({ setItem() { throw new Error('quota'); } }, 'accepted'), false);
 });
@@ -52,7 +60,7 @@ test('loadMetaPixel inyecta fbevents y encola init + PageView', () => {
   loadMetaPixel('123', win, doc);
   assert.equal(appended.length, 1);
   assert.equal(appended[0].src, 'https://connect.facebook.net/en_US/fbevents.js');
-  assert.deepEqual(win.fbq.queue.map((a) => [...a]), [['init', '123'], ['track', 'PageView']]);
+  assert.deepEqual(win.fbq.queue.map((a) => [...a]), [['consent', 'grant'], ['init', '123'], ['track', 'PageView']]);
   loadMetaPixel('123', win, doc);
   assert.equal(appended.length, 1);
 });
@@ -110,6 +118,7 @@ test('paginas con pixel cargan consent.js; captcha y auth no; ningun HTML refere
 test('consent.js: textos es-VE y sin hex sueltos en el banner', () => {
   const js = read('assets/js/consent.js');
   assert.match(js, /Aceptar/); assert.match(js, /Rechazar/); assert.match(js, /Preferencias de cookies/);
+  assert.match(js, /medición y publicidad \(Google y Meta\)/);
   assert.doesNotMatch(js, /(?:textContent = |\[')[^;\n]*[¡!]/);
   const css = read('assets/css/styles.css');
   const block = css.slice(css.indexOf('/* Cookies de medicion'));

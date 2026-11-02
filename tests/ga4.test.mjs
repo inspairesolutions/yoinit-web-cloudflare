@@ -36,14 +36,14 @@ function fakeEnv() {
   return { appended, listeners, doc, win: {} };
 }
 
-test('loadGa4: consentimiento denied por defecto antes de cargar, granted solo analytics_storage', () => {
+test('loadGa4: consentimiento denied por defecto antes de cargar, granted medicion y publicidad', () => {
   const { appended, doc, win } = fakeEnv();
   loadGa4(ID, win, doc);
   const calls = win.dataLayer.map((a) => [...a]);
   assert.deepEqual(calls[0], ['consent', 'default', CONSENT_DEFAULT]);
   assert.deepEqual(Object.values(CONSENT_DEFAULT), ['denied', 'denied', 'denied', 'denied']);
   // El consentimiento se concede antes de 'config' para que el page_view inicial cuente.
-  assert.deepEqual(calls[1], ['consent', 'update', { analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' }]);
+  assert.deepEqual(calls[1], ['consent', 'update', { analytics_storage: 'granted', ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted' }]);
   assert.equal(calls[2][0], 'js');
   assert.deepEqual(calls[3], ['config', ID]);
   assert.equal(appended.length, 1);
