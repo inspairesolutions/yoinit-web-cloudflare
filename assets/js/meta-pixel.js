@@ -4,7 +4,13 @@ import { storeLeadParams } from './meta-pixel-logic.js';
 export const FBEVENTS_SRC = 'https://connect.facebook.net/en_US/fbevents.js';
 
 let active = false;
-let clickBound = false;
+const boundDocs = new WeakSet();
+
+function newEventId(win) {
+  const c = win.crypto || (typeof crypto !== 'undefined' ? crypto : null);
+  if (c && typeof c.randomUUID === 'function') return c.randomUUID();
+  return Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
+}
 
 export function loadMetaPixel(pixelId, win = window, doc = document) {
   if (!pixelId || win.fbq) { active = Boolean(win.fbq); return; }
@@ -21,14 +27,14 @@ export function loadMetaPixel(pixelId, win = window, doc = document) {
   win.fbq('init', pixelId);
   win.fbq('track', 'PageView');
   active = true;
-  if (!clickBound) {
-    clickBound = true;
+  if (!boundDocs.has(doc)) {
+    boundDocs.add(doc);
     doc.addEventListener('click', (e) => {
       if (!active) return;
       const a = e.target && e.target.closest ? e.target.closest('a[data-store]') : null;
       if (!a || a.getAttribute('aria-disabled') === 'true' || !a.getAttribute('href')) return;
       const params = storeLeadParams(a.dataset.store);
-      if (params) win.fbq('track', 'Lead', params);
+      if (params) win.fbq('track', 'Lead', params, { eventID: newEventId(win) });
     });
   }
 }
