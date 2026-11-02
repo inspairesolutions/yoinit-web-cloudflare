@@ -66,7 +66,7 @@ test('loadMetaPixel inyecta fbevents y encola init + PageView', () => {
 });
 
 test('evento Lead solo para botones de tienda ios/android', () => {
-  assert.deepEqual(storeLeadParams('ios'), { content_name: 'descarga_app', content_category: 'ios' });
+  assert.deepEqual(storeLeadParams('ios'), { content_name: 'store_click', content_category: 'ios' });
   assert.equal(storeLeadParams('web'), null);
 });
 
@@ -130,4 +130,33 @@ test('consent.js: textos es-VE y sin hex sueltos en el banner', () => {
   assert.match(css, /\.cookie-banner__btn--primary \{[^}]*var\(--yo-acid\)[^}]*var\(--yo-base\)/);
   const block = css.slice(css.indexOf('/* Cookies de medicion'));
   assert.doesNotMatch(block, /#[0-9a-fA-F]{3,8}\b/);
+});
+
+test('Lead store_click: ios/android tras cargar, con eventID; no antes de consentimiento ni tras revocar; ignora aria-disabled', async () => {
+  const { loadMetaPixel, revokeMetaPixel } = await import('../assets/js/meta-pixel.js');
+  const listeners = [];
+  const doc = { createElement: () => ({}), head: { appendChild() {} }, addEventListener: (_t, f) => listeners.push(f) };
+  const win = { crypto: { randomUUID: () => 'uuid-1' } };
+  const link = (store, extra = {}) => ({ getAttribute: (k) => (k === 'href' ? 'https://x' : extra[k] ?? null), dataset: { store } });
+  const click = (a) => listeners.forEach((f) => f({ target: { closest: () => a } }));
+  click(link('ios')); // antes de cargar: no hay listener ni fbq
+  assert.equal(win.fbq, undefined);
+  loadMetaPixel('123', win, doc);
+  assert.equal(listeners.length, 1);
+  const n = win.fbq.queue.length;
+  click(link('ios'));
+  click(link('android'));
+  const added = win.fbq.queue.slice(n).map((a) => [...a]);
+  assert.deepEqual(added, [
+    ['track', 'Lead', { content_name: 'store_click', content_category: 'ios' }, { eventID: 'uuid-1' }],
+    ['track', 'Lead', { content_name: 'store_click', content_category: 'android' }, { eventID: 'uuid-1' }],
+  ]);
+  const n2 = win.fbq.queue.length;
+  click(link('ios', { 'aria-disabled': 'true' }));
+  click(link('web'));
+  assert.equal(win.fbq.queue.length, n2);
+  revokeMetaPixel(win);
+  const n3 = win.fbq.queue.length;
+  click(link('ios'));
+  assert.equal(win.fbq.queue.length, n3);
 });

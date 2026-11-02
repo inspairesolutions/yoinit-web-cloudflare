@@ -41,5 +41,5 @@ export function shouldShowBanner(consent, pixelId) {
 // Parametros del evento Lead al pulsar un boton de tienda (data-store="ios"|"android").
 export function storeLeadParams(store) {
   if (store !== 'ios' && store !== 'android') return null;
-  return { content_name: 'descarga_app', content_category: store };
+  return { content_name: 'store_click', content_category: store };
 }
