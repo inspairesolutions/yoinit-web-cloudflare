@@ -1,4 +1,4 @@
-// Banner de consentimiento de cookies de medicion. Sin eleccion o con "Rechazar" no se
+// Banner de consentimiento de cookies de medicion y publicidad (Google y Meta). Sin eleccion o con "Rechazar" no se
 // carga nada de Meta ni de Google. La eleccion vive en localStorage (la web funciona sin el).
 import { pixelIdForHost, readConsent, writeConsent, shouldLoadPixel, shouldShowBanner } from './meta-pixel-logic.js';
 import { ga4IdForHost } from './ga4-logic.js';
@@ -40,16 +40,16 @@ if (!anyId) {
     banner = document.createElement('div');
     banner.className = 'cookie-banner';
     banner.setAttribute('role', 'region');
-    banner.setAttribute('aria-label', 'Cookies de medición');
+    banner.setAttribute('aria-label', 'Cookies de medición y publicidad');
     const text = document.createElement('p');
     text.className = 'cookie-banner__text';
-    text.textContent = 'Usamos cookies de medición para saber qué páginas ayudan a llegar a la app. Tú decides.';
+    text.textContent = 'Usamos cookies de medición y publicidad (Google y Meta) para saber qué anuncios y páginas ayudan a llegar a la app. Tú decides.';
     const actions = document.createElement('div');
     actions.className = 'cookie-banner__actions';
     for (const [value, label] of [['accepted', 'Aceptar'], ['rejected', 'Rechazar']]) {
       const b = document.createElement('button');
       b.type = 'button';
-      b.className = 'cookie-banner__btn';
+      b.className = value === 'accepted' ? 'cookie-banner__btn cookie-banner__btn--primary' : 'cookie-banner__btn cookie-banner__btn--secondary';
       b.textContent = label;
       b.addEventListener('click', () => choose(value));
       actions.append(b);

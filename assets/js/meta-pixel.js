@@ -16,6 +16,8 @@ export function loadMetaPixel(pixelId, win = window, doc = document) {
   s.async = true;
   s.src = FBEVENTS_SRC;
   doc.head.appendChild(s);
+  // Solo se llega aqui con consentimiento (medicion y publicidad) ya dado.
+  win.fbq('consent', 'grant');
   win.fbq('init', pixelId);
   win.fbq('track', 'PageView');
   active = true;

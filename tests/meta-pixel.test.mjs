@@ -22,7 +22,10 @@ test('enabled:false o sin id apaga el pixel', () => {
 });
 
 test('consentimiento: aceptado, rechazado, sin eleccion y sin storage', () => {
-  assert.equal(readConsent(memStore({ [CONSENT_KEY]: 'accepted' })), 'accepted');
+  assert.equal(readConsent(memStore({ [CONSENT_KEY]: 'accepted_v2' })), 'accepted');
+  // 'accepted' del texto antiguo (sin publicidad) no vale: el banner vuelve a salir.
+  assert.equal(readConsent(memStore({ [CONSENT_KEY]: 'accepted' })), null);
+  assert.equal(shouldShowBanner(readConsent(memStore({ [CONSENT_KEY]: 'accepted' })), '1'), true);
   assert.equal(readConsent(memStore({ [CONSENT_KEY]: 'rejected' })), 'rejected');
   assert.equal(readConsent(memStore()), null);
   assert.equal(readConsent(memStore({ [CONSENT_KEY]: 'yes' })), null);
@@ -30,7 +33,12 @@ test('consentimiento: aceptado, rechazado, sin eleccion y sin storage', () => {
   assert.equal(readConsent({ getItem() { throw new Error('blocked'); } }), null);
   const st = memStore();
   assert.equal(writeConsent(st, 'accepted'), true);
+  assert.equal(st.getItem(CONSENT_KEY), 'accepted_v2');
   assert.equal(readConsent(st), 'accepted');
+  assert.equal(writeConsent(st, 'rejected'), true);
+  assert.equal(st.getItem(CONSENT_KEY), 'rejected');
+  assert.equal(readConsent(st), 'rejected');
+  assert.equal(shouldLoadPixel(readConsent(st), '1'), false);
   assert.equal(writeConsent(st, 'maybe'), false);
   assert.equal(writeConsent({ setItem() { throw new Error('quota'); } }, 'accepted'), false);
 });
@@ -52,7 +60,7 @@ test('loadMetaPixel inyecta fbevents y encola init + PageView', () => {
   loadMetaPixel('123', win, doc);
   assert.equal(appended.length, 1);
   assert.equal(appended[0].src, 'https://connect.facebook.net/en_US/fbevents.js');
-  assert.deepEqual(win.fbq.queue.map((a) => [...a]), [['init', '123'], ['track', 'PageView']]);
+  assert.deepEqual(win.fbq.queue.map((a) => [...a]), [['consent', 'grant'], ['init', '123'], ['track', 'PageView']]);
   loadMetaPixel('123', win, doc);
   assert.equal(appended.length, 1);
 });
@@ -76,7 +84,8 @@ const rules = () => {
 test('CSP: facebook solo en rutas con pixel; global, /captcha/* y /auth/* cerrados', () => {
   const r = rules();
   assert.doesNotMatch(r['/*'].csp, /facebook/);
-  assert.doesNotMatch(r['/captcha/*'].csp, /facebook/);
+  assert.doesNotMatch(r['/captcha/*'].csp, /facebook|doubleclick|googleadservices/);
+  assert.doesNotMatch(r['/*'].csp, /doubleclick|googleadservices/);
   assert.equal(Object.keys(r).some((k) => k.startsWith('/auth')), false);
   const px = ['/', '/index.html', '/partidas', '/partidas/*', '/grupos', '/grupos/*', '/r', '/r/*', '/privacidad/*', '/terminos/*', '/eliminar-cuenta/*', '/pelotas/*'];
   for (const p of px) {
@@ -87,6 +96,10 @@ test('CSP: facebook solo en rutas con pixel; global, /captcha/* y /auth/* cerrad
     assert.match(c, /connect-src [^;]*https:\/\/www\.facebook\.com/, p);
     assert.match(c, /frame-ancestors 'none'/, p);
     assert.doesNotMatch(c, /frame-src [^;]*facebook/, p);
+    assert.match(c, /script-src [^;]*https:\/\/www\.googleadservices\.com[^;]*https:\/\/googleads\.g\.doubleclick\.net/, p);
+    assert.match(c, /img-src [^;]*https:\/\/googleads\.g\.doubleclick\.net[^;]*https:\/\/www\.google\.co\.ve[^;]*https:\/\/\*\.doubleclick\.net/, p);
+    assert.match(c, /connect-src [^;]*https:\/\/www\.google\.com[^;]*https:\/\/\*\.doubleclick\.net/, p);
+    assert.match(c, /frame-src [^;]*https:\/\/td\.doubleclick\.net https:\/\/www\.googletagmanager\.com/, p);
   }
   const withFb = Object.keys(r).filter((k) => /facebook/.test(r[k].csp || ''));
   assert.deepEqual(withFb.sort(), [...px].sort());
@@ -110,8 +123,11 @@ test('paginas con pixel cargan consent.js; captcha y auth no; ningun HTML refere
 test('consent.js: textos es-VE y sin hex sueltos en el banner', () => {
   const js = read('assets/js/consent.js');
   assert.match(js, /Aceptar/); assert.match(js, /Rechazar/); assert.match(js, /Preferencias de cookies/);
+  assert.match(js, /medición y publicidad \(Google y Meta\)/);
   assert.doesNotMatch(js, /(?:textContent = |\[')[^;\n]*[¡!]/);
   const css = read('assets/css/styles.css');
+  assert.match(js, /cookie-banner__btn--primary/);
+  assert.match(css, /\.cookie-banner__btn--primary \{[^}]*var\(--yo-acid\)[^}]*var\(--yo-base\)/);
   const block = css.slice(css.indexOf('/* Cookies de medicion'));
   assert.doesNotMatch(block, /#[0-9a-fA-F]{3,8}\b/);
 });

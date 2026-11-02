@@ -10,7 +10,7 @@ export function loadGa4(measurementId, win = window, doc = document) {
   if (!measurementId || win.gtag) { active = Boolean(win.gtag); return; }
   win.dataLayer = win.dataLayer || [];
   win.gtag = function () { win.dataLayer.push(arguments); };
-  // Consent Mode v2: denegado por defecto ANTES de cargar nada; luego solo analytics_storage.
+  // Consent Mode v2: denegado por defecto ANTES de cargar nada; luego granted (medicion y publicidad) al aceptar.
   win.gtag('consent', 'default', { ...CONSENT_DEFAULT });
   // Solo se llega aqui con consentimiento ya dado: se concede ANTES de 'config' para que el
   // page_view inicial salga ya con analytics_storage granted y cuente (si no, sale como ping sin cookies).

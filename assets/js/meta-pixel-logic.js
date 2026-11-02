@@ -10,17 +10,22 @@ export function pixelIdForHost(hostname, cfg = metaPixelConfig) {
   return Array.isArray(cfg.hosts) && cfg.hosts.includes(host) ? String(cfg.pixelId) : null;
 }
 
-// 'accepted' | 'rejected' | null (sin eleccion, o sin localStorage).
+// Valor guardado al aceptar. Versionado: el texto anterior del banner no pedia permiso para
+// publicidad, asi que un 'accepted' viejo cuenta como sin eleccion y el banner vuelve a salir.
+export const ACCEPTED_STORED = 'accepted_v2';
+
+// 'accepted' | 'rejected' | null (sin eleccion, 'accepted' antiguo, o sin localStorage).
 export function readConsent(storage) {
   try {
     const value = storage && storage.getItem(CONSENT_KEY);
-    return value === 'accepted' || value === 'rejected' ? value : null;
+    if (value === ACCEPTED_STORED) return 'accepted';
+    return value === 'rejected' ? 'rejected' : null;
   } catch { return null; }
 }
 
 export function writeConsent(storage, value) {
   if (value !== 'accepted' && value !== 'rejected') return false;
-  try { storage.setItem(CONSENT_KEY, value); return true; } catch { return false; }
+  try { storage.setItem(CONSENT_KEY, value === 'accepted' ? ACCEPTED_STORED : value); return true; } catch { return false; }
 }
 
 // El pixel solo se carga con host de produccion Y consentimiento aceptado.

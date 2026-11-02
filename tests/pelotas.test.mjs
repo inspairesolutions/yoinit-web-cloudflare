@@ -163,7 +163,7 @@ test('_headers: CSP de /pelotas/ abre solo Supabase de prod; la global no cambia
   const h = readFileSync(new URL('../_headers', import.meta.url), 'utf8');
   const [global, rest] = h.split('/pelotas/*');
   assert.ok(!global.includes('supabase.co'));
-  assert.match(rest.split('/assets/*')[0], /connect-src 'self' https:\/\/djpgmmibdcgklseiqxpj\.supabase\.co https:\/\/challenges\.cloudflare\.com(?: https:\/\/www\.facebook\.com https:\/\/connect\.facebook\.net(?: https:\/\/www\.google-analytics\.com https:\/\/\*\.google-analytics\.com https:\/\/\*\.analytics\.google\.com https:\/\/www\.googletagmanager\.com)?)?;/);
+  assert.match(rest.split('/assets/*')[0], /connect-src 'self' https:\/\/djpgmmibdcgklseiqxpj\.supabase\.co https:\/\/challenges\.cloudflare\.com(?: https:\/\/www\.facebook\.com https:\/\/connect\.facebook\.net(?: https:\/\/www\.google-analytics\.com https:\/\/\*\.google-analytics\.com https:\/\/\*\.analytics\.google\.com https:\/\/www\.googletagmanager\.com(?: https:\/\/www\.google\.com https:\/\/googleads\.g\.doubleclick\.net https:\/\/www\.googleadservices\.com https:\/\/\*\.doubleclick\.net)?)?)?;/);
 });
 
 test('sin hex sueltos ni signos de admiracion en los archivos nuevos', () => {
