@@ -49,7 +49,7 @@ if (!anyId) {
     for (const [value, label] of [['accepted', 'Aceptar'], ['rejected', 'Rechazar']]) {
       const b = document.createElement('button');
       b.type = 'button';
-      b.className = 'cookie-banner__btn';
+      b.className = value === 'accepted' ? 'cookie-banner__btn cookie-banner__btn--primary' : 'cookie-banner__btn cookie-banner__btn--secondary';
       b.textContent = label;
       b.addEventListener('click', () => choose(value));
       actions.append(b);

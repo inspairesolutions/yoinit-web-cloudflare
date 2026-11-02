@@ -153,6 +153,9 @@ button:disabled { cursor: not-allowed; opacity: .65; }
 .cookie-banner__actions { display: flex; gap: 12px; flex: 0 0 auto; }
 .cookie-banner__btn { min-height: 44px; min-width: 120px; padding: 10px 20px; border: 1px solid var(--yo-line); border-radius: 12px; background: var(--yo-raised); color: var(--yo-text); font: 600 14px 'Plus Jakarta Sans', sans-serif; }
 .cookie-banner__btn:hover { border-color: var(--yo-secondary); }
+.cookie-banner__btn--primary { background: var(--yo-acid); border-color: var(--yo-acid); color: var(--yo-base); }
+.cookie-banner__btn--primary:hover { border-color: var(--yo-acid); filter: brightness(1.06); }
+.cookie-banner__btn--secondary { background: transparent; }
 @media (max-width: 480px) { .cookie-banner__actions { width: 100%; } .cookie-banner__btn { flex: 1 1 0; min-width: 0; } }
 .cookie-prefs { min-height: 44px; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-decoration: underline; text-underline-offset: 3px; }
 .cookie-prefs-wrap { margin: 0; padding: 8px 16px 24px; text-align: center; font-size: 13px; color: var(--yo-muted); }
