@@ -56,3 +56,14 @@ test('404.html: pagina propia, noindex, rutas absolutas y sin JS ni hex sueltos'
   assert.match(html, /href="\/">Ir al inicio/);
   assert.doesNotMatch(html, /<script|#[0-9a-fA-F]{6}\b/);
 });
+
+test('/categorias: indexable, en el sitemap, con la tabla 1-7 y sin hex sueltos', () => {
+  const html = read('categorias/index.html');
+  assert.doesNotMatch(html, /noindex/);
+  assert.match(html, /<link rel="canonical" href="https:\/\/yoinit\.app\/categorias\/">/);
+  assert.equal((html.match(/<h1[\s>]/g) || []).length, 1);
+  for (let n = 1; n <= 7; n++) assert.match(html, new RegExp(`<th scope="row">${n}</th>`));
+  assert.match(read('sitemap.xml'), /https:\/\/yoinit\.app\/categorias\//);
+  assert.match(read('llms.txt'), /https:\/\/yoinit\.app\/categorias\//);
+  assert.doesNotMatch(read('assets/css/categorias.css'), /#[0-9a-fA-F]{3,6}\b/);
+});

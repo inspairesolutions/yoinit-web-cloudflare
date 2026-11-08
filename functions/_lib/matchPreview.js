@@ -55,15 +55,33 @@ function venueParts(date) {
   };
 }
 
-export function formatLevel(n) {
-  return (Math.round(n * 100) / 100).toString().replace('.', ',');
+// Escala de categorias (2026-11-08): la BD guarda una habilidad ascendente en [1, 7]; se muestra
+// la categoria entera 1 (experta) a 7 (principiante). valor = 8 - habilidad; categoria = ceil(round4(valor)).
+// Misma formula que _shared/levelCategory.ts del backend y que la app.
+const MIN_SKILL = 1;
+const MAX_SKILL = 7;
+
+export function skillToCategory(skill) {
+  const clamped = Math.min(MAX_SKILL, Math.max(MIN_SKILL, skill));
+  const value = Math.round((8 - clamped) * 10000) / 10000;
+  return Math.min(7, Math.max(1, Math.ceil(value)));
 }
 
+// min_level = habilidad minima (categoria mas floja que entra); max_level = habilidad maxima
+// (categoria mas fuerte que entra). Un limite que no restringe (min <= 1, max >= 7) se ignora.
 export function levelLabel(s) {
-  const { levelMin: lo, levelMax: hi } = s;
+  const lo = s.levelMin !== null && s.levelMin > MIN_SKILL ? s.levelMin : null;
+  const hi = s.levelMax !== null && s.levelMax < MAX_SKILL ? s.levelMax : null;
   if (lo === null && hi === null) return null;
-  if (lo !== null && hi !== null) return lo === hi ? `Nivel ${formatLevel(lo)}` : `Nivel ${formatLevel(lo)}–${formatLevel(hi)}`;
-  return lo !== null ? `Nivel desde ${formatLevel(lo)}` : `Nivel hasta ${formatLevel(hi)}`;
+  if (lo !== null && hi !== null) {
+    const worst = skillToCategory(lo);
+    const best = skillToCategory(hi);
+    if (best === worst) return `Categoría ${best}`;
+    // Rango invertido o imposible: no se inventa nada.
+    if (best > worst) return null;
+    return `Categorías ${best} a ${worst}`;
+  }
+  return lo !== null ? `Categoría ${skillToCategory(lo)} o mejor` : `Categoría ${skillToCategory(hi)} o peor`;
 }
 
 function slotsHeadline(s) {

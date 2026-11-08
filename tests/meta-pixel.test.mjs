@@ -87,7 +87,7 @@ test('CSP: facebook solo en rutas con pixel; global, /captcha/* y /auth/* cerrad
   assert.doesNotMatch(r['/captcha/*'].csp, /facebook|doubleclick|googleadservices/);
   assert.doesNotMatch(r['/*'].csp, /doubleclick|googleadservices/);
   assert.equal(Object.keys(r).some((k) => k.startsWith('/auth')), false);
-  const px = ['/', '/index.html', '/partidas', '/partidas/*', '/grupos', '/grupos/*', '/r', '/r/*', '/privacidad/*', '/terminos/*', '/eliminar-cuenta/*', '/pelotas/*'];
+  const px = ['/', '/index.html', '/partidas', '/partidas/*', '/grupos', '/grupos/*', '/r', '/r/*', '/privacidad/*', '/terminos/*', '/categorias/*', '/eliminar-cuenta/*', '/pelotas/*'];
   for (const p of px) {
     const c = r[p].csp;
     assert.ok(r[p].detach, p);
