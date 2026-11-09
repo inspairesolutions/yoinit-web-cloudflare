@@ -14,3 +14,6 @@
 .cat-faq details:first-of-type { border-top: 1px solid var(--yo-line); }
 .cat-faq summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; color: var(--yo-text); font: 700 16px/1.4 'Plus Jakarta Sans', sans-serif; }
 .cat-faq details p { margin: 8px 0 0; }
+/* Causa del desborde en movil: privacy.css pasa .privacy-layout a `1fr` (= minmax(auto,1fr)) y el min-width de la tabla ensanchaba la columna. */
+.privacy-layout > * { min-width: 0; }
+@media (max-width: 860px) { .privacy-layout { grid-template-columns: minmax(0, 1fr); } }
