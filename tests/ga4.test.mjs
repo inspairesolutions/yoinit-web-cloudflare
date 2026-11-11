@@ -92,7 +92,7 @@ test('CSP: Google solo en las rutas con medicion; no en /*, /captcha/* ni /auth/
   const r = rules();
   assert.doesNotMatch(r['/*'].csp, /google-analytics|googletagmanager|analytics\.google/);
   assert.doesNotMatch(r['/captcha/*'].csp, /google-analytics|googletagmanager|analytics\.google/);
-  const px = ['/', '/index.html', '/partidas', '/partidas/*', '/grupos', '/grupos/*', '/r', '/r/*', '/privacidad/*', '/terminos/*', '/eliminar-cuenta/*', '/pelotas/*'];
+  const px = ['/', '/index.html', '/partidas', '/partidas/*', '/grupos', '/grupos/*', '/r', '/r/*', '/privacidad/*', '/terminos/*', '/categorias/*', '/eliminar-cuenta/*', '/pelotas/*'];
   for (const p of px) {
     const c = r[p].csp;
     assert.match(c, /script-src [^;]*https:\/\/www\.googletagmanager\.com/, p);

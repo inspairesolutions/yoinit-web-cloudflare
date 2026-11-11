@@ -9,6 +9,7 @@
 ## Información
 - [Versión extendida con datos clave, cómo funciona y preguntas frecuentes](https://yoinit.app/llms-full.txt)
 - [Inicio: qué es YoinIt, cómo funciona y preguntas frecuentes](https://yoinit.app/)
+- [Categorías 1 a 7: cómo funcionan y cómo se mueve la tuya](https://yoinit.app/categorias/)
 - [Términos y condiciones](https://yoinit.app/terminos/)
 - [Política de privacidad](https://yoinit.app/privacidad/)
 

@@ -1,0 +1,19 @@
+/* Landing /categorias/: complementa privacy.css con la tabla de categorias y las preguntas. Solo tokens --yo-*. */
+.cat-table-wrap { overflow-x: auto; margin: 0 0 24px; border: 1px solid var(--yo-line); border-radius: 16px; background: var(--yo-surface); }
+.cat-table { width: 100%; min-width: 520px; border-collapse: collapse; text-align: left; }
+.cat-table th, .cat-table td { padding: 14px 16px; border-bottom: 1px solid var(--yo-line); vertical-align: top; font-size: 15px; line-height: 1.55; color: var(--yo-secondary); }
+.cat-table tbody tr:last-child th, .cat-table tbody tr:last-child td { border-bottom: 0; }
+.cat-table thead th { color: var(--yo-text); font: 800 13px/1.2 Archivo, sans-serif; letter-spacing: .04em; text-transform: uppercase; background: var(--yo-raised); }
+.cat-table tbody th { width: 96px; color: var(--yo-text); font: 800 18px/1.3 Archivo, sans-serif; letter-spacing: -.02em; white-space: nowrap; }
+.cat-table td strong { color: var(--yo-text); font-weight: 700; }
+.cat-example { margin: 0 0 24px; padding: 16px 18px; border: 1px solid var(--yo-line); border-radius: 16px; background: var(--yo-raised); }
+.cat-example p { margin: 0 0 8px; }
+.cat-example p:last-child { margin: 0; }
+.cat-example .cat-example__title { color: var(--yo-text); font: 800 20px/1.25 Archivo, sans-serif; letter-spacing: -.02em; }
+.cat-faq details { border-bottom: 1px solid var(--yo-line); padding: 14px 0; }
+.cat-faq details:first-of-type { border-top: 1px solid var(--yo-line); }
+.cat-faq summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; color: var(--yo-text); font: 700 16px/1.4 'Plus Jakarta Sans', sans-serif; }
+.cat-faq details p { margin: 8px 0 0; }
+/* Causa del desborde en movil: privacy.css pasa .privacy-layout a `1fr` (= minmax(auto,1fr)) y el min-width de la tabla ensanchaba la columna. */
+.privacy-layout > * { min-width: 0; }
+@media (max-width: 860px) { .privacy-layout { grid-template-columns: minmax(0, 1fr); } }
