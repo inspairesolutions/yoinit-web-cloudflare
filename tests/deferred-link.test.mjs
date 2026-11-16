@@ -123,7 +123,7 @@ test('AASA: JSON valido, appID y rutas de las tres landings', () => {
   const aasa = JSON.parse(readFileSync(new URL('../.well-known/apple-app-site-association', import.meta.url), 'utf8'));
   const [detail] = aasa.applinks.details;
   assert.deepEqual(detail.appIDs, ['MC2TL5C499.com.yoinit.app']);
-  assert.deepEqual(detail.components.map((c) => c['/']), ['/partidas/*', '/grupos/*', '/r/*', '/crear', '/crear/']);
+  assert.deepEqual(detail.components.map((c) => c['/']), ['/partidas/*', '/grupos/*', '/r/*']);
 });
 
 test('_headers sirve el AASA como application/json', () => {

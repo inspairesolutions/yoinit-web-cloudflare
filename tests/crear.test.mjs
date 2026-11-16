@@ -16,8 +16,11 @@ test('landing /crear: noindex, copy exacto, tiendas y boton para abrir la app', 
   assert.match(html, /data-store="android"/);
   assert.match(html, /<button type="button" class="primary-button partida-cta" data-action="open-app">Abrir YoinIt<\/button>/);
   assert.ok(html.indexOf('data-action="open-app"') < html.indexOf('<ol class="partida-steps">'));
-  assert.match(html, /var deepLink = 'com\.yoinit\.app:\/\/open\/crear';/);
-  assert.match(html, /androidIntentUrl\('\/crear', playUrl\)/);
+  // Abre la app en su inicio con una ruta que aceptan todas las versiones publicadas.
+  assert.match(html, /var deepLink = 'com\.yoinit\.app:\/\/auth\/confirmed';/);
+  assert.match(html, /intent:\/\/auth\/confirmed#Intent;scheme=com\.yoinit\.app;package=com\.yoinit\.app;/);
+  assert.match(html, /S\.browser_fallback_url=' \+ encodeURIComponent\(playUrl\)/);
+  assert.doesNotMatch(html, /open\/crear/);
   assert.match(html, /setTimeout\(function \(\) \{ window\.location\.href = deepLink; \}, 50\);/);
   assert.match(html, /from '\/assets\/js\/deferred-link\.js'/);
   assert.doesNotMatch(html.replace(/<svg[\s\S]*?<\/svg>/g, ''), /#[0-9a-fA-F]{3,8}\b/);
@@ -29,11 +32,10 @@ test('/crear: fuera del sitemap, cerrada en robots y sin regla en _redirects (cr
   assert.doesNotMatch(read('_redirects'), /crear/);
 });
 
-test('/crear se anuncia a iOS en el AASA y assetlinks no cambia', () => {
+test('/crear NO esta en el AASA: el https carga siempre la pagina, que abre la app en el inicio', () => {
   const aasa = JSON.parse(read('.well-known/apple-app-site-association'));
   const paths = aasa.applinks.details[0].components.map((c) => c['/']);
-  assert.ok(paths.includes('/crear'));
-  assert.ok(paths.includes('/crear/'));
+  assert.ok(!paths.some((p) => p.startsWith('/crear')));
   assert.doesNotMatch(read('.well-known/assetlinks.json'), /crear/);
 });
 

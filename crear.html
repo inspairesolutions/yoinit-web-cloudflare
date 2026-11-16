@@ -76,17 +76,23 @@
 
 <script type="module">
 import { siteConfig } from '/assets/js/config.js';
-import { androidIntentUrl, isAndroid, playStoreUrl } from '/assets/js/deferred-link.js';
+import { isAndroid, playStoreUrl } from '/assets/js/deferred-link.js';
 
 (function () {
   // Mismo mecanismo que /grupos, /r y /partidas: esquema propio, intent en Android desde el boton
   // y un intento automatico a los 50 ms. Aqui las tiendas y los pasos quedan siempre visibles.
-  var deepLink = 'com.yoinit.app://open/crear';
   var playUrl = playStoreUrl(siteConfig.downloads.android, {});
+  // Abre la app en su inicio. `auth/confirmed` es la unica ruta del esquema propio
+  // que todas las versiones publicadas aceptan en iOS y en Android (el filtro del host
+  // `open` solo admite /partidas, /r y /grupos) y solo abre la app. Un destino propio
+  // cae en «enlace invalido» en las versiones que no lo conocen.
+  var deepLink = 'com.yoinit.app://auth/confirmed';
+  var androidIntent = 'intent://auth/confirmed#Intent;scheme=com.yoinit.app;package=com.yoinit.app;'
+    + 'S.browser_fallback_url=' + encodeURIComponent(playUrl) + ';end';
   var android = isAndroid(navigator.userAgent);
 
   function openApp() {
-    window.location.href = android ? androidIntentUrl('/crear', playUrl) : deepLink;
+    window.location.href = android ? androidIntent : deepLink;
   }
 
   var openButtons = document.querySelectorAll('[data-action="open-app"]');
