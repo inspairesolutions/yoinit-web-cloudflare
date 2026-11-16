@@ -5,6 +5,7 @@ Disallow: /captcha/
 Disallow: /auth/
 Disallow: /r/
 Disallow: /grupos/
+Disallow: /crear
 Disallow: /partidas/
 Disallow: /eliminar-cuenta/
 
