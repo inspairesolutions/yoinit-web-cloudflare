@@ -6,7 +6,9 @@
         "components": [
           { "/": "/partidas/*", "comment": "Partida compartida" },
           { "/": "/grupos/*", "comment": "Grupo por codigo" },
-          { "/": "/r/*", "comment": "Invitacion de referido" }
+          { "/": "/r/*", "comment": "Invitacion de referido" },
+          { "/": "/crear", "comment": "Crear partida" },
+          { "/": "/crear/", "comment": "Crear partida con barra final" }
         ]
       }
     ]
