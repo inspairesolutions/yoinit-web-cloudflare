@@ -41,7 +41,23 @@ export function parseSummary(raw) {
     totalSlots: total,
     freeSlots: free,
     status: raw.status,
+    // Partidas sembradas (Ola 5): solo si el resumen trae is_seeded === true. Sin el campo
+    // (partida normal o backend viejo) todo queda como antes.
+    ...(raw.is_seeded === true
+      ? {
+          seeded: true,
+          pricePerPlayer: num(raw.price_per_player_usd),
+          firstFreeAlive: raw.first_free_alive === true,
+        }
+      : {}),
   };
+}
+
+// $8, $12,50; precio 0 = "Gratis". null = sin precio conocido.
+export function formatPrice(usd) {
+  if (usd === null || usd === undefined || !Number.isFinite(usd)) return null;
+  if (usd <= 0) return 'Gratis';
+  return Number.isInteger(usd) ? `$${usd}` : `$${usd.toFixed(2).replace('.', ',')}`;
 }
 
 function venueParts(date) {
@@ -99,11 +115,12 @@ function americanaHeadline(s) {
 export function ogTitle(s) {
   const p = venueParts(s.startsAt);
   const head = s.format === 'americana' ? americanaHeadline(s) : slotsHeadline(s);
-  return `${head} · ${p.day} ${p.time}`;
+  const price = s.seeded && s.status === 'open' && s.freeSlots > 0 ? formatPrice(s.pricePerPlayer) : null;
+  return price ? `${head} · ${price} · ${p.day} ${p.time}` : `${head} · ${p.day} ${p.time}`;
 }
 
 export function ogDescription(s) {
-  return [s.sport, levelLabel(s), s.venueName].filter(Boolean).join(' · ');
+  return [s.sport, levelLabel(s), s.venueName, s.seeded ? 'Organiza yoinit' : null].filter(Boolean).join(' · ');
 }
 
 export function ogTags(s, pageUrl, origin) {
@@ -142,12 +159,23 @@ export function summaryBlock(s) {
         : am
           ? `${s.totalSlots} jugadores · ${s.freeSlots} ${s.freeSlots === 1 ? 'cupo libre' : 'cupos libres'}`
           : `${s.freeSlots} ${s.freeSlots === 1 ? 'plaza libre' : 'plazas libres'} de ${s.totalSlots}`;
+  const price = s.seeded ? formatPrice(s.pricePerPlayer) : null;
+  const seededLines = s.seeded
+    ? [
+        `  <p class="partida-summary-organizer">${escapeHtml(price && price !== 'Gratis' ? `Organiza yoinit · ${price} por plaza` : 'Organiza yoinit')}</p>`,
+        s.firstFreeAlive && s.status === 'open' && s.freeSlots > 0
+          ? '  <p class="partida-summary-promo">El primero que se una juega gratis</p>'
+          : '',
+        '  <p class="partida-summary-note">Necesitas la última versión de la app para unirte.</p>',
+      ]
+    : [];
   return [
     '<div class="partida-summary">',
     `  <p class="partida-summary-when">${escapeHtml(when)}</p>`,
     `  <p class="partida-summary-meta">${escapeHtml(meta)}</p>`,
     place ? `  <p class="partida-summary-place">${escapeHtml(place)}</p>` : '',
     `  <p class="partida-summary-slots">${escapeHtml(slots)}</p>`,
+    ...seededLines,
     '</div>',
   ].filter(Boolean).join('\n');
 }

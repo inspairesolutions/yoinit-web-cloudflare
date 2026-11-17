@@ -123,3 +123,45 @@ test('sin format (funcion sin desplegar) o format desconocido: partida normal', 
   }
   assert.match(applyPreview(landing, parseSummary(raw), ctx), /1 plaza libre de 4/);
 });
+
+// Ola 5: partidas sembradas
+const seeded = { ...raw, is_seeded: true, price_per_player_usd: 8, first_free_alive: true, free_slots: 2 };
+
+test('sembrada: titulo con precio, descripcion con "Organiza yoinit", sin signos de admiracion', () => {
+  const s = parseSummary(seeded);
+  assert.equal(s.seeded, true);
+  assert.equal(ogTitle(s), 'Faltan 2 · $8 · jue 19:00');
+  assert.equal(ogDescription(s), 'Pádel · Categorías 3 a 5 · Club Altamira · Organiza yoinit');
+  assert.equal(ogTitle(parseSummary({ ...seeded, price_per_player_usd: 12.5 })), 'Faltan 2 · $12,50 · jue 19:00');
+  assert.equal(ogTitle(parseSummary({ ...seeded, free_slots: 0, status: 'full' })), 'Partida completa · jue 19:00');
+  assert.doesNotMatch(ogTitle(s) + ogDescription(s), /!/);
+});
+
+test('sembrada: bloque con organizador, precio, plazas, campana y aviso de version', () => {
+  const html = applyPreview(landing, parseSummary(seeded), ctx);
+  assert.match(html, /Organiza yoinit · \$8 por plaza/);
+  assert.match(html, /2 plazas libres de 4/);
+  assert.match(html, /El primero que se una juega gratis/);
+  assert.match(html, /Necesitas la última versión de la app para unirte\./);
+  assert.match(html, /<meta property="og:title" content="Faltan 2 · \$8 · jue 19:00">/);
+  assert.match(html, /<meta name="twitter:title" content="Faltan 2 · \$8 · jue 19:00">/);
+});
+
+test('sembrada: sin campana viva (o llena) no hay guino; precio 0 no pinta "$0 por plaza"', () => {
+  assert.doesNotMatch(applyPreview(landing, parseSummary({ ...seeded, first_free_alive: false }), ctx), /juega gratis/);
+  assert.doesNotMatch(applyPreview(landing, parseSummary({ ...seeded, free_slots: 0, status: 'full' }), ctx), /juega gratis/);
+  const free = applyPreview(landing, parseSummary({ ...seeded, price_per_player_usd: 0 }), ctx);
+  assert.doesNotMatch(free, /por plaza/);
+  assert.equal(parseSummary({ ...seeded, price_per_player_usd: 'x' }).pricePerPlayer, null);
+});
+
+test('partida normal o resumen viejo: sin nada de sembradas', () => {
+  for (const r of [raw, { ...raw, is_seeded: false }, { ...raw, is_seeded: 'true', price_per_player_usd: 8 }]) {
+    const s = parseSummary(r);
+    assert.equal(s.seeded, undefined);
+    assert.equal(ogTitle(s), 'Falta 1 · jue 19:00');
+    assert.equal(ogDescription(s), 'Pádel · Categorías 3 a 5 · Club Altamira');
+    const html = applyPreview(landing, s, ctx);
+    assert.doesNotMatch(html, /Organiza yoinit|última versión|juega gratis/);
+  }
+});
