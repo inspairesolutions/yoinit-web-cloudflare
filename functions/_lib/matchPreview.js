@@ -120,7 +120,7 @@ export function ogTitle(s) {
 }
 
 export function ogDescription(s) {
-  return [s.sport, levelLabel(s), s.venueName, s.seeded ? 'Organiza yoinit' : null].filter(Boolean).join(' · ');
+  return [s.sport, levelLabel(s), s.venueName, s.seeded ? 'Organiza YoinIt' : null].filter(Boolean).join(' · ');
 }
 
 export function ogTags(s, pageUrl, origin) {
@@ -162,7 +162,7 @@ export function summaryBlock(s) {
   const price = s.seeded ? formatPrice(s.pricePerPlayer) : null;
   const seededLines = s.seeded
     ? [
-        `  <p class="partida-summary-organizer">${escapeHtml(price && price !== 'Gratis' ? `Organiza yoinit · ${price} por plaza` : 'Organiza yoinit')}</p>`,
+        `  <p class="partida-summary-organizer">${escapeHtml(price && price !== 'Gratis' ? `Organiza YoinIt · ${price} por plaza` : 'Organiza YoinIt')}</p>`,
         s.firstFreeAlive && s.status === 'open' && s.freeSlots > 0
           ? '  <p class="partida-summary-promo">El primero que se una juega gratis</p>'
           : '',
