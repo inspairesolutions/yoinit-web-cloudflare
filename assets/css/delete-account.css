@@ -123,6 +123,13 @@
   background: var(--yo-muted);
 }
 
+.deletion-includes .deletion-note {
+  margin: 14px 0 0;
+  color: var(--yo-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 .deletion-form-column {
   min-width: 0;
 }

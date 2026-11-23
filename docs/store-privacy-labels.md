@@ -41,7 +41,7 @@ Notas de cuestionario:
 - ¿Recoge o comparte datos? **Sí recoge y sí comparte** (analítica y publicidad) con Google (Firebase Analytics) y Meta Platforms. No vende datos personales. Los proveedores que actúan como encargados (Supabase, Firebase Cloud Messaging, Sentry, Google Places, Resend, BNC) cuentan como "service providers" y, según la guía de Play, no se declaran como "compartir".
 - Permiso `com.google.android.gms.permission.AD_ID`: declararlo en Play Console (ID de publicidad usado para analítica y publicidad).
 - ¿Cifrado en tránsito? **Sí.**
-- ¿Puede el usuario pedir que se eliminen sus datos? **Sí**, URL: https://yoinit.app/eliminar-cuenta/ (y en la app).
+- ¿Puede el usuario pedir que se eliminen sus datos? **Sí**, URL: https://yoinit.app/eliminar-cuenta/ (y en la app). Al procesar la solicitud se eliminan los datos personales y se conserva, anonimizada (sin nombre ni identificadores), la actividad deportiva (partidas, resultados, categoría, clasificaciones) y los registros de reservas y pagos (montos, fechas, referencias bancarias). Revisar si la declaración de borrado parcial en Play Console debe mencionarlo; no se ha confirmado qué exige la tienda.
 
 | Categoría Play | Dato | Recogido | Compartido | Opcional | Finalidad |
 |---|---|---|---|---|---|
